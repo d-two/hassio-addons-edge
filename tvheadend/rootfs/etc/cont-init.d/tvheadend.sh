@@ -11,9 +11,9 @@ check_picons(){
 picons_install(){
     bashio::log.info '[Picons] Installing Picons.'
     bashio::log.info '[Picons] SNP-Picons Download.'
-    wget -O /config/tvheadend/snp.tar.xz $(bashio::config 'snp-url')
+    wget -O /config/tvheadend/snp.tar.xz $(bashio::config 'snp_url')
     bashio::log.info '[Picons] SRP-Picons Download.'
-    wget -O /config/tvheadend/srp.tar.xz $(bashio::config 'srp-url')
+    wget -O /config/tvheadend/srp.tar.xz $(bashio::config 'srp_url')
     bashio::log.info '[Picons] SNP-Picons extract.'
     mkdir -p /config/tvheadend/picons/snp
     tar -xf /config/tvheadend/snp.tar.xz -C /config/tvheadend/picons/snp
