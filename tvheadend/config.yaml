@@ -1,8 +1,8 @@
 ---
 name: TVHeadend
-version: 1.5-1
+version: dev
 stage: experimental
-slug: tvheadend
+slug: tvheadend_dev
 description: TV streaming server and recorder.
 url: "https://github.com/GauthamVarmaK/addon-tvheadend"
 init: false
