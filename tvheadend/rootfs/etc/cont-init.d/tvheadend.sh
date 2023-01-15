@@ -19,11 +19,11 @@ picons_install(){
             wget -O /config/tvheadend/srp.tar.xz $(bashio::config 'srp_url')
             bashio::log.info '[Picons] SNP-Picons extract.'
             mkdir -p /config/tvheadend/picons/snp
-            tar -xf /config/tvheadend/snp.tar.xz -C /config/tvheadend/picons/snp
+            tar -xf /config/tvheadend/snp.tar.xz --strip-components=1 -C /config/tvheadend/picons/snp
             rm /config/tvheadend/snp.tar.xz
             bashio::log.info '[Picons] SRP-Picons extract.'
             mkdir -p /config/tvheadend/picons/srp
-            tar -xf /config/tvheadend/srp.tar.xz -C /config/tvheadend/picons/srp
+            tar -xf /config/tvheadend/srp.tar.xz --strip-components=1 -C /config/tvheadend/picons/srp
             rm /config/tvheadend/srp.tar.xz    
         fi
     fi
