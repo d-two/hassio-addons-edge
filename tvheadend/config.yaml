@@ -36,9 +36,15 @@ options:
   system_packages: []
   init_commands: []
   webgrabplus: false
+  picons: false
+  snp-url: ""
+  srp-url: ""
 schema:
   system_packages:
     - str
   init_commands:
     - str
   webgrabplus: bool
+  picons: bool
+  snp-url: str
+  srp-url: str
