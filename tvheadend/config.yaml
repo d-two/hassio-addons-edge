@@ -37,8 +37,8 @@ options:
   init_commands: []
   webgrabplus: false
   picons: false
-  snp-url: ""
-  srp-url: ""
+  snp_url: ""
+  srp_url: ""
 schema:
   system_packages:
     - str
@@ -46,5 +46,5 @@ schema:
     - str
   webgrabplus: bool
   picons: bool
-  snp-url: str
-  srp-url: str
+  snp_url: str
+  srp_url: str
