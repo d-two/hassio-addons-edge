@@ -11,7 +11,7 @@ check_picons(){
 picons_install(){
     if apk update; then
         bashio::log.info '[Picons] APK: Installing required packages.'
-        if apk add --no-cache --virtual .build-deps xz; then        
+        if apk add --no-cache --virtual .build-deps xz; then
             bashio::log.info '[Picons] Installing Picons.'
             bashio::log.info '[Picons] SNP-Picons Download.'
             wget -O /config/tvheadend/snp.tar.xz $(bashio::config 'snp_url')
@@ -24,7 +24,9 @@ picons_install(){
             bashio::log.info '[Picons] SRP-Picons extract.'
             mkdir -p /config/tvheadend/picons/srp
             tar -xf /config/tvheadend/srp.tar.xz --strip-components=1 -C /config/tvheadend/picons/srp
-            rm /config/tvheadend/srp.tar.xz    
+            rm /config/tvheadend/srp.tar.xz
+            sed -i 's|.*chiconpath.*|	"chiconpath": "file:///config/tvheadend/picons/snp/%C.png",|g' /config/tvheadend/config
+            sed -i 's|.*piconpath.*|	"piconpath": "file:///config/tvheadend/picons/srp",|g' /config/tvheadend/config
         fi
     fi
 }
