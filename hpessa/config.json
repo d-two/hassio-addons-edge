@@ -15,6 +15,7 @@
   "webui": "[PROTO:ssl]://[HOST]:[PORT:80]/index.htm",
   "ingress": true,
   "ingress_port": 0,
+  "init": false,
   "panel_icon": "mdi:database-edit",
   "map": [],
   "full_access": true,
