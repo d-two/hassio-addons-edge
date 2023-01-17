@@ -30,3 +30,4 @@ COPY rootfs /
 # Corrects permissions
 RUN if [ -d /etc/services.d ]; then chmod -R 755 /etc/services.d; fi
 RUN chmod -R 755 /nginx.sh
+RUN chmod -R 755 /usr/bin/firefox
