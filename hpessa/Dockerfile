@@ -16,7 +16,7 @@ RUN ( \
         	nginx \
         	procps \
     \
-    && luarocks install lua-resty-http 0.15-0 \
+    && luarocks install lua-resty-http \
     )
 
 RUN ( \
