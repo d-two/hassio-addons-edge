@@ -12,7 +12,7 @@
   "ports_description": {
     "80/tcp": "Web interface (Not required for Ingress)"
   },
-  "webui": "[PROTO:ssl]://[HOST]:[PORT:80]/ssainit.htm",
+  "webui": "[PROTO:ssl]://[HOST]:[PORT:80]/index.htm",
   "ingress": true,
   "ingress_port": 0,
   "init": false,
