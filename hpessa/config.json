@@ -1,6 +1,6 @@
 {
   "name": "HPE Smart Storage Administrator",
-  "version": "1",
+  "version": "dev",
   "slug": "hpessa",
   "description": "HPE Smart Storage Administrator (HPE SSA) offers a single interface that quickly sets up, configures and manages the HPE Smart Array controllers and the HPE SAS Host Bus Adapters (HBAs).",
   "arch": ["amd64"],
