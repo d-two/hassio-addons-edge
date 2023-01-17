@@ -12,9 +12,9 @@ if bashio::config.true 'leave_front_door_open'; then
 fi
 
 if bashio::config.has_value 'lang'; then
-	ssa -local -lang $(bashio::config 'lang')
+    ssa -local -lang $(bashio::config 'lang')
 else
-	ssa -local
+    ssa -local
 fi
 
 bashio::log.info "HPE SSA closed..."
