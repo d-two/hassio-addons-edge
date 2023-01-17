@@ -1,9 +1,6 @@
 #!/usr/bin/with-contenv bashio
 declare ssa_port
-bashio::log.info "Starting fake firefox..."
-bashio::log.info "$@"
-
-#http://127.0.0.1:%%PORT%%/hpessa.htm
+bashio::log.info "Starting fake firefox with '$@'..."
 
 ssa_port=${@}
 ssa_port=${ssa_port/http:\/\/127.0.0.1:/}
