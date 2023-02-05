@@ -122,13 +122,13 @@ FROM ${BUILD_FROM}
 
 #zenity
 ARG VNC_PKGS="ttf-dejavu tigervnc openbox"
-ARG RUNTIME_PKG="qt5-qtquickcontrols2 qt5-qtsvg qt5-qtmultimedia qt5-qttools libmediainfo"
+ARG RUNTIME_PKG="qt5-qtquickcontrols2 qt5-qtsvg qt5-qtmultimedia qt5-qttools qt5-qtbase-sqlite libmediainfo"
 
 # Add files.
 COPY rootfs/ /
 COPY --from=nginx /tmp/nginx-install /opt/base/
 COPY --from=noVNC /opt/noVNC /opt/noVNC
-COPY --from=MediaElchBuild /usr/bin/MediaElch /usr/bin/
+COPY --from=MediaElchBuild /usr/bin/MediaElch /app/
 COPY --from=MediaElchBuild /usr/share/pixmaps/MediaElch.png /opt/noVNC/app/images/icons/master_icon.png
 
 # Install dependencies.
