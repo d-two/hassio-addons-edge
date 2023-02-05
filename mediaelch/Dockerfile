@@ -15,6 +15,7 @@ FROM --platform=$BUILD_ARCH ${BUILD_FROM} AS nginx
 ARG TARGETPLATFORM
 COPY --from=xx / /
 COPY src/nginx/build.sh /tmp/build-nginx.sh
+RUN chmod -R 755 /tmp/build-nginx.sh
 RUN /tmp/build-nginx.sh
 RUN xx-verify --static /tmp/nginx-install/sbin/nginx
 # NOTE: Extended attributes are kept by buildx when using the COPY command.
