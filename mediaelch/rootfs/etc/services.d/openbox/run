@@ -1,6 +1,0 @@
-#!/command/with-contenv bashio
-
-export DISPLAY=":0"
-
-bashio::log.info "Starting OpenBox...."
-exec /usr/bin/openbox-session
