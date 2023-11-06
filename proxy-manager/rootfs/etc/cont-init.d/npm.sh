@@ -77,7 +77,7 @@ if ! bashio::fs.directory_exists "/data/nginx/default_host"; then
 fi
 
 mkdir /.config    
-cp /defaults/production.json /.config/default.json
+cp /defaults/production.json /.config/production.json
 
 # Creates basic temporary files directory structure
 # Needed for caching
