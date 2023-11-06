@@ -11,7 +11,7 @@ options+=(--abort_on_uncaught_exception)
 options+=("--max_old_space_size=250")
 
 export NODE_ENV=production
-export NODE_CONFIG_DIR=/data/manager
+#export NODE_CONFIG_DIR=/data/manager
 export DB_MYSQL_HOST=$(bashio::services "mysql" "host")
 export DB_MYSQL_PORT=$(bashio::services "mysql" "port")
 export DB_MYSQL_USER=$(bashio::services "mysql" "username")
