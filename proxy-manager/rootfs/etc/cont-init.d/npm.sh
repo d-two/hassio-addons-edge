@@ -63,6 +63,7 @@ fi
 if ! bashio::fs.directory_exists "/data/manager"; then
     mkdir /data/manager .config    
     cp /defaults/production.json /.config/default.json
+    cp /defaults/production.json /data/manager/production.json
 fi
 
 if ! bashio::fs.directory_exists "/ssl/nginxproxymanager"; then
