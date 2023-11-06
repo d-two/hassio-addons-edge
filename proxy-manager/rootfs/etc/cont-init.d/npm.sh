@@ -61,8 +61,7 @@ if ! bashio::fs.directory_exists "/data/letsencrypt-acme-challenge"; then
 fi
 
 if ! bashio::fs.directory_exists "/data/manager"; then
-    mkdir /data/manager .config    
-    cp /defaults/production.json /.config/default.json
+    mkdir /data/manager
     cp /defaults/production.json /data/manager/production.json
 fi
 
@@ -76,6 +75,9 @@ if ! bashio::fs.directory_exists "/data/nginx/default_host"; then
         /data/nginx/default_host \
         /data/nginx/default_www
 fi
+
+mkdir /.config    
+cp /defaults/production.json /.config/default.json
 
 # Creates basic temporary files directory structure
 # Needed for caching
