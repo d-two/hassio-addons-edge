@@ -38,7 +38,7 @@ RUN \
         py3-pip=23.1.2-r0 \
         python3=3.11.6-r0 \
     \
-    && pip3 install --upgrade pip && pip3 install -r /tmp/requirements.txt \
+    && pip3 install -r /tmp/requirements.txt \
     \
     && yarn global add modclean \
     \
