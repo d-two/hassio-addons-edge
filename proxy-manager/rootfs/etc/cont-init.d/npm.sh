@@ -36,6 +36,7 @@ sed -i 's#/data/logs/letsencrypt-requests_error.log#/proc/1/fd/1#g' \
 #    /opt/nginx-proxy-manager/backend/internal/certificate.js
 #sed -i 's#+ ' && deactivate'##g' \
 #    /opt/nginx-proxy-manager/backend/internal/certificate.js
+python -m venv /opt/certbot
 
 # Store cache in a temporary folder
 sed -i 's#/var/lib/nginx/cache/public#/tmp/nginx/cache/public#g' \
