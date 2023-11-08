@@ -14,6 +14,8 @@ declare httpsport
 
 httpport=$(bashio::addon.port 80)
 httpsport=$(bashio::addon.port 443)
+
+bashio::log.info "Change Ports"
 # Change http port
 sed -i 's#listen 80;#listen ${httpport};#g' /etc/nginx/conf.d/default.conf
 sed -i 's#listen [::]:80;#listen [::]:${httpport};#g' /etc/nginx/conf.d/default.conf
@@ -23,6 +25,7 @@ sed -i 's#listen 443 ssl;#listen ${httpsport} ssl;#g' /etc/nginx/conf.d/default.
 sed -i 's#listen [::]:443 ssl;#listen [::]:${httpsport} ssl;#g' /etc/nginx/conf.d/default.conf
 sed -i 's#set $port "443";#set $port "${httpsport}";#g' /etc/nginx/conf.d/default.conf
 
+bashio::log.info "Redirect log output"
 # Redirect log output to the add-on log
 sed -i 's#/data/logs/fallback_error.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
 sed -i 's#/data/logs/fallback_access.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
