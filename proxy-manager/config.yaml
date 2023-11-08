@@ -26,7 +26,7 @@ ports_description:
   80/tcp: HTTP Entrance port
   81/tcp: Proxy management web interface
   443/tcp: HTTPS/SSL Entrance port
-  3000/tcp: Stream port
+  3000/tcp: Proxy management api
 map:
   - ssl:rw
   - backup:rw
