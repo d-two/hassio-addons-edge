@@ -18,13 +18,13 @@ httpsport=$(bashio::addon.port 443)
 bashio::log.info "Change Ports"
 # Change http port
 sed -i "s#80#${httpport}#g" /etc/nginx/conf.d/default.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/backend/templates/_listen.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/backend/templates/default.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/backend/templates/letsencrypt-request.conf
+sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/_listen.conf
+sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/default.conf
+sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/letsencrypt-request.conf
 
 # Change https port
 sed -i "s#443#${httpsport}#g" /etc/nginx/conf.d/default.conf
-sed -i "s#443#${httpsport}#g" /opt/nginx-proxy-manager/backend/templates/_listen.conf
+sed -i "s#443#${httpsport}#g" /opt/nginx-proxy-manager/templates/_listen.conf
 
 bashio::log.info "Redirect log output"
 # Redirect log output to the add-on log
