@@ -17,13 +17,13 @@ httpsport=$(bashio::addon.port 443)
 
 bashio::log.info "Change Ports"
 # Change http port
-sed -i 's#listen 80;#listen ${httpport};#g' /etc/nginx/conf.d/default.conf
-sed -i 's#listen [::]:80;#listen [::]:${httpport};#g' /etc/nginx/conf.d/default.conf
-sed -i 's#set $port "80";#set $port "${httpport}";#g' /etc/nginx/conf.d/default.conf
+sed -i "s#listen 80;#listen ${httpport};#g" /etc/nginx/conf.d/default.conf
+sed -i "s#listen [::]:80;#listen [::]:${httpport};#g" /etc/nginx/conf.d/default.conf
+sed -i "s#set $port "80";#set $port "${httpport}";#g" /etc/nginx/conf.d/default.conf
 # Change https port
-sed -i 's#listen 443 ssl;#listen ${httpsport} ssl;#g' /etc/nginx/conf.d/default.conf
-sed -i 's#listen [::]:443 ssl;#listen [::]:${httpsport} ssl;#g' /etc/nginx/conf.d/default.conf
-sed -i 's#set $port "443";#set $port "${httpsport}";#g' /etc/nginx/conf.d/default.conf
+sed -i "s#listen 443 ssl;#listen ${httpsport} ssl;#g" /etc/nginx/conf.d/default.conf
+sed -i "s#listen [::]:443 ssl;#listen [::]:${httpsport} ssl;#g" /etc/nginx/conf.d/default.conf
+sed -i "s#set $port "443";#set $port "${httpsport}";#g" /etc/nginx/conf.d/default.conf
 
 bashio::log.info "Redirect log output"
 # Redirect log output to the add-on log
