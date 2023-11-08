@@ -9,6 +9,20 @@ declare mysql_port
 declare mysql_username
 declare query
 
+declare httpport
+declare httpsport
+
+httpport=$(bashio::addon.port 80)
+httpsport=$(bashio::addon.port 443)
+# Change http port
+sed -i 's#listen 80;#listen ${httpport};#g' /etc/nginx/conf.d/default.conf
+sed -i 's#listen [::]:80;#listen [::]:${httpport};#g' /etc/nginx/conf.d/default.conf
+sed -i 's#set $port "80";#set $port "${httpport}";#g' /etc/nginx/conf.d/default.conf
+# Change https port
+sed -i 's#listen 443 ssl;#listen ${httpsport} ssl;#g' /etc/nginx/conf.d/default.conf
+sed -i 's#listen [::]:443 ssl;#listen [::]:${httpsport} ssl;#g' /etc/nginx/conf.d/default.conf
+sed -i 's#set $port "443";#set $port "${httpsport}";#g' /etc/nginx/conf.d/default.conf
+
 # Redirect log output to the add-on log
 sed -i 's#/data/logs/fallback_error.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
 sed -i 's#/data/logs/fallback_access.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
@@ -32,10 +46,9 @@ sed -i 's#/data/logs/letsencrypt-requests_access.log#/proc/1/fd/1#g' \
 sed -i 's#/data/logs/letsencrypt-requests_error.log#/proc/1/fd/1#g' \
     /opt/nginx-proxy-manager/templates/letsencrypt-request.conf
 
-#sed -i 's#. /opt/certbot/bin/activate &&##g' \
-#    /opt/nginx-proxy-manager/backend/internal/certificate.js
-#sed -i 's#+ ' && deactivate'##g' \
-#    /opt/nginx-proxy-manager/backend/internal/certificate.js
+
+
+#sed -i 's#. /opt/certbot/bin/activate &&##g'
 python -m venv /opt/certbot
 
 # Store cache in a temporary folder
