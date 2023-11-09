@@ -16,6 +16,10 @@ RUN apk add --no-cache \
 
 COPY rootfs/ /
 
+# Corrects permissions for s6 v3
+RUN if [ -d /etc/cont-init.d ]; then chmod -R 755 /etc/cont-init.d; fi && \
+    if [ -d /etc/services.d ]; then chmod -R 755 /etc/services.d; fi
+
 # Build arguments
 ARG BUILD_ARCH
 ARG BUILD_DATE
