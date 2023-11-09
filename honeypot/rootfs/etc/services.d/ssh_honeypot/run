@@ -1,0 +1,10 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: honeypot
+# Runs the ssh_honeypot
+# ==============================================================================
+
+bashio::log.info "Starting ssh_honeypot..."
+
+# Run
+exec python3 /app/ssh_honeypot.py > /share/honeypot/ssh/log 
