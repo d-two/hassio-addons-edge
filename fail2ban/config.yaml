@@ -1,10 +1,10 @@
 ---
 name: fail2ban
-version: dev-1
+version: dev-2
 slug: fail2ban
-description: Manage Nginx proxy hosts with a simple, powerful interface
-url: https://github.com/hassio-addons/addon-nginx-proxy-manager
-codenotary: codenotary@frenck.dev
+description: Fail2ban is an intrusion prevention software framework.
+url: https://github.com/d-two/hassio-addons-edge/fail2ban
+codenotary: the.dtwo@gmail.com
 init: false
 arch:
   - aarch64
