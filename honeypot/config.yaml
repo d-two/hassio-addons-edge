@@ -1,6 +1,6 @@
 ---
 name: Honeypot
-version: beta-1
+version: beta-2
 slug: honeypot
 description: SSH Honeypot
 url: https://github.com/hassio-addons/honeypot
