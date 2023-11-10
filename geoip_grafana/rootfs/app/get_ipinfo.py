@@ -10,9 +10,6 @@ Domain = str(sys.argv[2])
 time = sys.argv[3]
 duration = int(sys.argv[4])
 
-print ('*************************************')
-print (IP)
-
 reader = geoip2.database.Reader('/share/geoip_grafana/GeoLite2-City.mmdb')
 response = reader.city(IP)
 
@@ -25,14 +22,13 @@ Country = response.country.name
 Zip = response.postal.code
 reader.close()
 
-print (IP)
-print (Country)
-print (State)
-print (City)
-print (Zip)
-print (Long)
-print (Lat)
-print (ISO)
+print ("IP: $IP")
+print ("Country: $Country")
+print ("State: $State")
+print ("City: $City")
+print ("Zip: $Zip")
+print ("Long/Lat: $Long/$Lat")
+print ("ISO: $ISO")
 
 # influx configuration - edit these
 ifuser = os.getenv('INFLUX_USER')
@@ -40,15 +36,8 @@ ifpass = os.getenv('INFLUX_PW')
 ifdb   = os.getenv('INFLUX_DB')
 ifhost = os.getenv('INFLUX_HOST')
 ifport = os.getenv('INFLUX_PORT')
-print ('*************************************')
-print (ifuser)
-print (ifpass)
-print (ifdb)
-print (ifhost)
-print (ifport)
 
 measurement_name = ("ReverseProxyConnections")
-print (measurement_name)
 print ('*************************************')
 
 # format the data as a single measurement for influx
