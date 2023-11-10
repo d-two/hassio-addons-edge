@@ -27,7 +27,7 @@ print ("Country:", Country)
 print ("State:", State)
 print ("City:", City)
 print ("Zip:", Zip)
-print ("Long/Lat:", Long + "/"+ Lat)
+print ("Long/Lat: {}/{}".format(Long, Lat))
 print ("ISO:", ISO)
 
 # influx configuration - edit these
