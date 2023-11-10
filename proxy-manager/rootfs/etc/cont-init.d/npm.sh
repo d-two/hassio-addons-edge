@@ -72,7 +72,7 @@ if ! bashio::fs.directory_exists "/share/proxy-manager/logs"; then
     mkdir -p /share/proxy-manager/logs
 fi
 # Clean old logs
-rm /share/proxy-manager/logs/*
+#rm -f /share/proxy-manager/logs/*
 
 if ! bashio::fs.directory_exists "/data/nginx"; then
     mkdir -p \
