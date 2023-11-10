@@ -30,27 +30,29 @@ bashio::log.info "Redirect log output"
 # Redirect log output to the add-on log
 sed -i 's#/data/logs/fallback_error.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
 sed -i 's#/data/logs/fallback_access.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
-sed -i 's#/data/logs/dead-host-{{ id }}_access.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/dead_host.conf
-sed -i 's#/data/logs/dead-host-{{ id }}_error.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/dead_host.conf
-sed -i 's#/data/logs/redirection-host-{{ id }}_access.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/redirection_host.conf
-sed -i 's#/data/logs/redirection-host-{{ id }}_error.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/redirection_host.conf
-sed -i 's#/data/logs/proxy-host-{{ id }}_access.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/proxy_host.conf
-sed -i 's#/data/logs/proxy-host-{{ id }}_error.log#/proc/1/fd/1#g' \
-    /opt/nginx-proxy-manager/templates/proxy_host.conf
+
 sed -i 's#/data/logs/fallback_access.log#/proc/1/fd/1#g' /etc/nginx/conf.d/default.conf
 sed -i 's#/data/logs/fallback_error.log#/proc/1/fd/1#g' /etc/nginx/conf.d/default.conf
 sed -i 's#/data/logs/fallback_access.log#/proc/1/fd/1#g' /etc/nginx/conf.d/default.conf
+
 sed -i 's#/data/logs/letsencrypt-requests_access.log#/proc/1/fd/1#g' \
     /opt/nginx-proxy-manager/templates/letsencrypt-request.conf
 sed -i 's#/data/logs/letsencrypt-requests_error.log#/proc/1/fd/1#g' \
     /opt/nginx-proxy-manager/templates/letsencrypt-request.conf
 
-
+# Redirect log output to /share/proxy-manager/logs
+sed -i 's#/data/logs/dead-host-{{ id }}_access.log#/share/proxy-manager/logs/dead-host-{{ id }}_access.log#g' \
+    /opt/nginx-proxy-manager/templates/dead_host.conf
+sed -i 's#/data/logs/dead-host-{{ id }}_error.log#/share/proxy-manager/logs/dead-host-{{ id }}_error.log#g' \
+    /opt/nginx-proxy-manager/templates/dead_host.conf
+sed -i 's#/data/logs/redirection-host-{{ id }}_access.log#/share/proxy-manager/logs/redirection-host-{{ id }}_access.log#g' \
+    /opt/nginx-proxy-manager/templates/redirection_host.conf
+sed -i 's#/data/logs/redirection-host-{{ id }}_error.log#/share/proxy-manager/logs/redirection-host-{{ id }}_error.log#g' \
+    /opt/nginx-proxy-manager/templates/redirection_host.conf
+sed -i 's#/data/logs/proxy-host-{{ id }}_access.log#/share/proxy-manager/logs/proxy-host-{{ id }}_access.log#g' \
+    /opt/nginx-proxy-manager/templates/proxy_host.conf
+sed -i 's#/data/logs/proxy-host-{{ id }}_error.log#/share/proxy-manager/logs/proxy-host-{{ id }}_error.log#g' \
+    /opt/nginx-proxy-manager/templates/proxy_host.conf
 
 #sed -i 's#. /opt/certbot/bin/activate &&##g'
 python -m venv /opt/certbot
@@ -64,6 +66,11 @@ sed -i 's#/var/lib/nginx/cache/private#/tmp/nginx/cache/private#g' \
 # Add Stream module
 sed -i 's#daemon off;#daemon off;\nload_module /usr/lib/nginx/modules/ngx_stream_module.so;#g' \
     /etc/nginx/nginx.conf
+
+# Store logs in /share/proxy-manager/logs
+if ! bashio::fs.directory_exists "/share/proxy-manager/logs"; then
+    mkdir -p /share/proxy-manager/logs
+fi
 
 if ! bashio::fs.directory_exists "/data/nginx"; then
     mkdir -p \
