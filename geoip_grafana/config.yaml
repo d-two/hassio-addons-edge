@@ -1,6 +1,6 @@
 ---
 name: GeoIP-Grafana
-version: dev-2
+version: dev-3
 slug: geoip_grafana
 description: GeoIP-Grafana
 url: https://github.com/hassio-addons/honeypot
