@@ -22,13 +22,13 @@ Country = response.country.name
 Zip = response.postal.code
 reader.close()
 
-print ("IP: $IP")
-print ("Country: $Country")
-print ("State: $State")
-print ("City: $City")
-print ("Zip: $Zip")
-print ("Long/Lat: $Long/$Lat")
-print ("ISO: $ISO")
+print ("IP:", IP)
+print ("Country:", Country)
+print ("State:", State)
+print ("City:", City)
+print ("Zip:", Zip)
+print ("Long/Lat:", Long + "/"+ Lat)
+print ("ISO:", ISO)
 
 # influx configuration - edit these
 ifuser = os.getenv('INFLUX_USER')
