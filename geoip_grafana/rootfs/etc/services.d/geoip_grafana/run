@@ -1,0 +1,43 @@
+#!/command/with-contenv bashio
+# ==============================================================================
+# Home Assistant Community Add-on: GeoIP-Grafana
+# Runs the geoip_grafana
+# ==============================================================================
+
+bashio::log.info "Starting geoip_grafana..."
+export INFLUX_USER=$(bashio::config 'influx_user')
+export INFLUX_PW=$(bashio::config 'influx_pw')
+export INFLUX_DB=$(bashio::config 'influx_db')
+export INFLUX_HOST=$(bashio::config 'influx_host')
+export INFLUX_PORT=$(bashio::config 'influx_port')
+
+if [ -f /share/geoip_grafana/timeSave ]
+then
+	timeSave=$(cat /share/geoip_grafana/timeSave)
+else
+	timeSave=0
+fi
+
+while IFS= read -r line; do
+	time=$(echo ${line:1} | cut -f1 -d])
+
+	tmp=$(echo ${line} | cut -f4 -d:)
+	ipaddressnumber=$(echo ${tmp} | cut -f1 -d' ')
+
+	tmp=$(echo ${line} | cut -f5 -d:)
+	user=$(echo ${tmp} | cut -f1 -d' ')
+
+	tmp=$(echo ${line} | cut -f6 -d:)
+	passwd=$(echo ${tmp} | cut -f1 -d' ')
+
+	logtime=$(echo ${time} | cut -f1 -d.)
+	filetime=$(echo ${timeSave} | cut -f1 -d.)
+
+	if [[ $(date -u -d "$logtime" +%s) -gt $(date -u -d "$filetime" +%s) ]]
+	then
+		python3 /app/get_ipinfo.py "$ipaddressnumber" "SSH Honeypot" "$time" "10"
+		timeSave=$time
+		echo "$timeSave" > /share/geoip_grafana/timeSave		
+	fi	
+done < /share/honeypot/ssh/log
+/run/s6/basedir/bin/halt
