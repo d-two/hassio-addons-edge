@@ -71,6 +71,8 @@ sed -i 's#daemon off;#daemon off;\nload_module /usr/lib/nginx/modules/ngx_stream
 if ! bashio::fs.directory_exists "/share/proxy-manager/logs"; then
     mkdir -p /share/proxy-manager/logs
 fi
+# Clean old logs
+rm /share/proxy-manager/logs/*
 
 if ! bashio::fs.directory_exists "/data/nginx"; then
     mkdir -p \
