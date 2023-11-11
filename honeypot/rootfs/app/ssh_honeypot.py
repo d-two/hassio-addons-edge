@@ -3,8 +3,9 @@ import socket, paramiko, threading
 from datetime import datetime
 
 class SSH_Server(paramiko.ServerInterface):
-	def __init__( self, client_addr ):
+	def __init__(self, client_addr ):
 		self.client_addr = client_addr
+		self.banner_timeout = 200 # It was 15
 
 	def check_auth_password(self, username, password):
         # Port: {self.client_addr[1]}
