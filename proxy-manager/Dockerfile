@@ -15,8 +15,7 @@ COPY requirements.txt /tmp/
 ARG NGINX_PROXY_MANAGER_VERSION="v2.10.4"
 # hadolint ignore=DL3003,DL3042
 RUN \
-    apk update && apk upgrade --no-cache \
-    && apk add --no-cache --virtual .build-dependencies \
+    apk add --no-cache --virtual .build-dependencies \
         build-base=0.5-r3 \
         git=2.40.1-r0 \
         libffi-dev=3.4.4-r2 \
@@ -35,7 +34,7 @@ RUN \
         nginx-mod-stream=1.24.0-r7 \
         nginx=1.24.0-r7 \
         nodejs=18.18.2-r0 \
-        openssl=3.1.4-r0 \
+        openssl=3.1.4-r1 \
         py3-pip=23.1.2-r0 \
         python3=3.11.6-r0 \        
     \
