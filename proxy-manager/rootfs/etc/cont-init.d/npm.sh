@@ -9,23 +9,6 @@ declare mysql_port
 declare mysql_username
 declare query
 
-declare httpport
-declare httpsport
-
-httpport=$(bashio::addon.port 80)
-httpsport=$(bashio::addon.port 443)
-
-bashio::log.info "Change Ports"
-# Change http port
-sed -i "s#80#${httpport}#g" /etc/nginx/conf.d/default.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/_listen.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/default.conf
-sed -i "s#80#${httpport}#g" /opt/nginx-proxy-manager/templates/letsencrypt-request.conf
-
-# Change https port
-sed -i "s#443#${httpsport}#g" /etc/nginx/conf.d/default.conf
-sed -i "s#443#${httpsport}#g" /opt/nginx-proxy-manager/templates/_listen.conf
-
 bashio::log.info "Redirect log output"
 # Redirect log output to the add-on log
 sed -i 's#/data/logs/fallback_error.log#/proc/1/fd/1#g' /etc/nginx/nginx.conf
