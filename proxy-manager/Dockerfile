@@ -31,13 +31,13 @@ RUN \
         certbot=2.6.0-r0 \
         libcap=2.69-r0 \
         logrotate=3.21.0-r1 \
+        mariadb-client=10.11.5-r0 \
         nginx-mod-stream=1.24.0-r7 \
         nginx=1.24.0-r7 \
         nodejs=18.18.2-r0 \
         openssl=3.1.4-r0 \
         py3-pip=23.1.2-r0 \
-        python3=3.11.6-r0 \
-        mariadb-client \
+        python3=3.11.6-r0 \        
     \
     && pip3 install -r /tmp/requirements.txt \
     \
