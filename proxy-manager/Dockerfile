@@ -24,7 +24,7 @@ RUN \
         libcrypto3=3.1.4-r1 \
         openssl-dev=3.1.4-r1 \
         patch=2.7.6-r10 \
-        python3-dev=3.11.6-r0 \
+        python3-dev=3.11.6-r1 \
         yarn=1.22.19-r0 \
     \
     && apk add --no-cache \
@@ -40,7 +40,7 @@ RUN \
         libcrypto3=3.1.4-r1 \
         openssl=3.1.4-r1 \
         py3-pip=23.1.2-r0 \
-        python3=3.11.6-r0 \
+        python3=3.11.6-r1 \
     \
     && pip3 install -r /tmp/requirements.txt \
     \
