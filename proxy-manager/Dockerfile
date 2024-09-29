@@ -10,7 +10,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy Python requirements file & patches
 COPY requirements.txt /tmp/
-COPY patches/*.patch /usr/src/
+COPY patches/* /usr/src/
 
 # Setup base
 ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
