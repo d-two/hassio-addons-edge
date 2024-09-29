@@ -1,4 +1,4 @@
-ARG BUILD_FROM=ghcr.io/hassio-addons/base:14.3.2
+ARG BUILD_FROM=ghcr.io/hassio-addons/base-nodejs:0.2.2
 # hadolint ignore=DL3006
 FROM ${BUILD_FROM}
 
@@ -8,8 +8,9 @@ ENV NODE_OPTIONS="--openssl-legacy-provider"
 # Set shell
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
-# Copy Python requirements file
+# Copy Python requirements file & patches
 COPY requirements.txt /tmp/
+COPY patches/*.patch /usr/src/
 
 # Setup base
 ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
@@ -17,26 +18,22 @@ ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
 RUN \
     apk add --no-cache --virtual .build-dependencies \
         build-base=0.5-r3 \
-        git=2.40.1-r0 \
-        libffi-dev=3.4.4-r2 \
-        npm=9.6.6-r0 \
-        openssl-dev=3.1.4-r1 \
+        git=2.43.5-r0 \
+        libffi-dev=3.4.4-r3 \
+        openssl-dev=3.1.7-r0 \
         patch=2.7.6-r10 \
-        python3-dev=3.11.6-r0 \
-        yarn=1.22.19-r0 \
+        python3-dev=3.11.10-r0 \
     \
     && apk add --no-cache \
-        apache2-utils=2.4.58-r0 \
-        certbot=2.6.0-r0 \
-        libcap=2.69-r0 \
+        apache2-utils=2.4.62-r0 \
+        certbot=2.7.4-r0 \
+        libcap=2.69-r1 \
         logrotate=3.21.0-r1 \
-        mariadb-client=10.11.5-r0 \
-        nginx-mod-stream=1.24.0-r7 \
-        nginx=1.24.0-r7 \
-        nodejs=18.18.2-r0 \
-        openssl=3.1.4-r1 \
-        py3-pip=23.1.2-r0 \
-        python3=3.11.6-r0 \        
+        nginx-mod-stream=1.24.0-r16 \
+        nginx=1.24.0-r16 \
+        openssl=3.1.7-r0 \
+        py3-pip=23.3.1-r0 \
+        python3=3.11.10-r0 \
     \
     && pip3 install -r /tmp/requirements.txt \
     \
@@ -48,16 +45,9 @@ RUN \
     && tar zxvf \
         /tmp/nginxproxymanager.tar.gz \
         --strip 1 -C /app \
-    && sed -i "s#canShow('streams')#false#g" \
-        /app/frontend/js/app/ui/menu/main.ejs \
-    && sed -i "s#canShow('streams')#false#g" \
-        /app/frontend/js/app/dashboard/main.ejs \
-    && sed -i "s#, 'streams',#,#g" \
-        /app/frontend/js/app/user/permissions.ejs \
-    && sed -i "s#6.0.1#8.0.0#g" \
-        /app/frontend/package.json \
-    && sed -i "s#10.2.0#10.4.1#g" \
-        /app/frontend/package.json \
+    \
+    && for i in /usr/src/*.patch; do \
+        patch -d /app -p 1 < "${i}"; done \
     \
     && cd /app/frontend \
     && yarn install \
@@ -93,7 +83,6 @@ RUN \
         /opt/nginx-proxy-manager/migrations/20190227065017_settings.js \
     \
     && mkdir -p \
-        /run/mysqld \
         /run/nginx \
     \
     && modclean \
@@ -118,7 +107,6 @@ RUN \
         /tmp/* \
         /usr/lib/node_modules \
         /usr/local/share/.cache \
-        /var/lib/mysql \
         /var/lib/nginx \
         /var/log/nginx \
         /var/tmp/nginx \
@@ -126,10 +114,6 @@ RUN \
 
 # Copy root filesystem
 COPY rootfs /
-
-# Corrects permissions for s6 v3
-RUN if [ -d /etc/cont-init.d ]; then chmod -R 755 /etc/cont-init.d; fi && \
-    if [ -d /etc/services.d ]; then chmod -R 755 /etc/services.d; fi
 
 # Build arguments
 ARG BUILD_ARCH
@@ -147,11 +131,11 @@ LABEL \
     io.hass.arch="${BUILD_ARCH}" \
     io.hass.type="addon" \
     io.hass.version=${BUILD_VERSION} \
-    maintainer="Franck Nijhof <frenck@addons.community>" \
+    maintainer="D-Two <the.dtwo@gmail.com>" \
     org.opencontainers.image.title="${BUILD_NAME}" \
     org.opencontainers.image.description="${BUILD_DESCRIPTION}" \
     org.opencontainers.image.vendor="Home Assistant Community Add-ons" \
-    org.opencontainers.image.authors="Franck Nijhof <frenck@addons.community>" \
+    org.opencontainers.image.authors="D-Two <the.dtwo@gmail.com>" \
     org.opencontainers.image.licenses="MIT" \
     org.opencontainers.image.url="https://addons.community" \
     org.opencontainers.image.source="https://github.com/${BUILD_REPOSITORY}" \
