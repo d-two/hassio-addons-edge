@@ -17,14 +17,12 @@ ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
 # hadolint ignore=DL3003,DL3042
 RUN \
     apk add --no-cache --virtual .build-dependencies \
-        libcrypto3=3.1.7-r0 \
-        libssl3=3.1.7-r0 \
-        build-base=0.5-r3 \
-        git=2.43.5-r0 \
-        libffi-dev=3.4.4-r3 \
-        openssl-dev=3.1.7-r0 \
-        patch=2.7.6-r10 \
-        python3-dev=3.11.10-r0
+        build-base \
+        git \
+        libffi-dev \
+        openssl-dev \
+        patch \
+        python3-dev
     
 RUN \
     apk add --no-cache \
@@ -37,8 +35,6 @@ RUN \
         openssl=3.1.7-r0 \
         py3-pip=23.3.1-r0 \
         python3=3.11.10-r0 \
-        libcrypto3=3.1.7-r0 \
-        libssl3=3.1.7-r0 \
     \
     && pip3 install -r /tmp/requirements.txt \
     \
