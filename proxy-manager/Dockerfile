@@ -10,7 +10,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 # Copy Python requirements file & patches
 COPY requirements.txt /tmp/
-#COPY patches/*.patch /usr/src/
+COPY patches/*.patch /usr/src/
 
 # Setup base
 ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
@@ -45,6 +45,9 @@ RUN \
     && tar zxvf \
         /tmp/nginxproxymanager.tar.gz \
         --strip 1 -C /app \
+    \
+    && for i in /usr/src/*.patch; do \
+        patch -d /app -p 1 < "${i}"; done \
     \
     && cd /app/frontend \
     && yarn install \
