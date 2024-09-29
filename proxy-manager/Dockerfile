@@ -12,7 +12,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 COPY requirements.txt /tmp/
 
 # Setup base
-ARG NGINX_PROXY_MANAGER_VERSION="v2.10.4"
+ARG NGINX_PROXY_MANAGER_VERSION="v2.11.3"
 # hadolint ignore=DL3003,DL3042
 RUN \
     apk add --no-cache --virtual .build-dependencies \
