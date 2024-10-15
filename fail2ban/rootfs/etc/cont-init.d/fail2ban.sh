@@ -17,27 +17,27 @@ ln -sf /config/fail2ban/jail.d /etc/fail2ban/
 echo "Setting Fail2ban configuration..."
 sed -i "s|logtarget =.*|logtarget = $F2B_LOG_TARGET|g" /etc/fail2ban/fail2ban.conf
 sed -i "s/loglevel =.*/loglevel = $F2B_LOG_LEVEL/g" /etc/fail2ban/fail2ban.conf
-sed -i "s/dbfile =.*/dbfile = \/share\/fail2ban\/db\/fail2ban\.sqlite3/g" /etc/fail2ban/fail2ban.conf
+sed -i "s/dbfile =.*/dbfile = \/config\/fail2ban\/db\/fail2ban\.sqlite3/g" /etc/fail2ban/fail2ban.conf
 sed -i "s/dbpurgeage =.*/dbpurgeage = $F2B_DB_PURGE_AGE/g" /etc/fail2ban/fail2ban.conf
 sed -i "s/#allowipv6 =.*/allowipv6 = auto/g" /etc/fail2ban/fail2ban.conf
 
 # Check custom actions
-echo "Checking for custom actions in /share/fail2ban/action.d..."
+echo "Checking for custom actions in /config/fail2ban/action.d..."
 cp -rf /config/fail2ban/action.d/* /etc/fail2ban/action.d 2>/dev/null || :
-#actions=$(ls -l /share/fail2ban/action.d | grep -E '^-' | awk '{print $9}')
+#actions=$(ls -l /config/fail2ban/action.d | grep -E '^-' | awk '{print $9}')
 #for action in ${actions}; do
 #  if [ -f "/etc/fail2ban/action.d/${action}" ]; then
 #    echo "  WARNING: ${action} already exists and will be overriden"
 #    rm -f "/etc/fail2ban/action.d/${action}"
 #  fi
 #  echo "  Add custom action ${action}..."
-#  ln -sf "/share/fail2ban/action.d/${action}" "/etc/fail2ban/action.d/"
+#  ln -sf "/config/fail2ban/action.d/${action}" "/etc/fail2ban/action.d/"
 #done
 
 # Check custom filters
-echo "Checking for custom filters in /share/fail2ban/filter.d..."
+echo "Checking for custom filters in /config/fail2ban/filter.d..."
 cp -rf /config/fail2ban/filter.d/* /etc/fail2ban/filter.d 2>/dev/null || :
-#filters=$(ls -l /share/fail2ban/filter.d | grep -E '^-' | awk '{print $9}')
+#filters=$(ls -l /config/fail2ban/filter.d | grep -E '^-' | awk '{print $9}')
 #for filter in ${filters}; do
 #  if [ -f "/etc/fail2ban/filter.d/${filter}" ]; then
 #    echo "  WARNING: ${filter} already exists and will be overriden"
