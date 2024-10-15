@@ -13,12 +13,12 @@ ARG BUILD_VERSION
 
 # Redirect log output to the add-on log
 RUN \
-sed -i 's#access_log /proc/1/fd/1#access_log /config/logs/dead-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf  && \
-sed -i 's#error_log /proc/1/fd/1#error_log /config/logs/dead-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf && \
-sed -i 's#access_log /proc/1/fd/1#access_log /config/logs/redirection-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/redirection_host.conf && \
-sed -i 's#error_log /proc/1/fd/1#error_log /config/logs/redirection-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/redirection_host.conf && \
-sed -i 's#access_log /proc/1/fd/1#access_log /config/logs/proxy-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf && \
-sed -i 's#error_log /proc/1/fd/1#error_log /config/logs/proxy-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf
+sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/dead-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf  && \
+sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/dead-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf && \
+sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/redirection-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/redirection_host.conf && \
+sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/redirection-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/redirection_host.conf && \
+sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/proxy-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf && \
+sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/proxy-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf
 
 # Labels
 LABEL \
