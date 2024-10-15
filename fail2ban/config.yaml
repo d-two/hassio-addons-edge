@@ -1,6 +1,6 @@
 ---
 name: fail2ban
-version: 0.9.1
+version: 0.9.2
 slug: fail2ban
 description: Fail2ban is an intrusion prevention software framework.
 url: https://github.com/d-two/hassio-addons-edge/fail2ban
@@ -18,7 +18,7 @@ privileged:
   - NET_ADMIN
   - NET_RAW
 map:
-  - config:rw
+  - addon_config:rw
   - share:rw
 schema:
   log_level: list(trace|debug|info|notice|warning|error|fatal)?
