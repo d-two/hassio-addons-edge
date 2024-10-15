@@ -4,14 +4,14 @@
 # This file applies patches so the add-on becomes compatible
 # ==============================================================================
 
-F2B_LOG_TARGET=/share/fail2ban/fail2ban.log
+F2B_LOG_TARGET=/config/fail2ban/fail2ban.log
 F2B_LOG_LEVEL=${F2B_LOG_LEVEL:-INFO}
 F2B_DB_PURGE_AGE=${F2B_DB_PURGE_AGE:-1d}
 
 # Init
 echo "Initializing files and folders..."
-mkdir -p /share/fail2ban/db /share/fail2ban/action.d /share/fail2ban/filter.d /share/fail2ban/jail.d
-ln -sf /share/fail2ban/jail.d /etc/fail2ban/
+mkdir -p /config/fail2ban/db /config/fail2ban/action.d /config/fail2ban/filter.d /config/fail2ban/jail.d
+ln -sf /config/fail2ban/jail.d /etc/fail2ban/
 
 # Fail2ban conf
 echo "Setting Fail2ban configuration..."
@@ -23,7 +23,7 @@ sed -i "s/#allowipv6 =.*/allowipv6 = auto/g" /etc/fail2ban/fail2ban.conf
 
 # Check custom actions
 echo "Checking for custom actions in /share/fail2ban/action.d..."
-cp -rf /share/fail2ban/action.d/* /etc/fail2ban/action.d 2>/dev/null || :
+cp -rf /config/fail2ban/action.d/* /etc/fail2ban/action.d 2>/dev/null || :
 #actions=$(ls -l /share/fail2ban/action.d | grep -E '^-' | awk '{print $9}')
 #for action in ${actions}; do
 #  if [ -f "/etc/fail2ban/action.d/${action}" ]; then
@@ -36,7 +36,7 @@ cp -rf /share/fail2ban/action.d/* /etc/fail2ban/action.d 2>/dev/null || :
 
 # Check custom filters
 echo "Checking for custom filters in /share/fail2ban/filter.d..."
-cp -rf /share/fail2ban/filter.d/* /etc/fail2ban/filter.d 2>/dev/null || :
+cp -rf /config/fail2ban/filter.d/* /etc/fail2ban/filter.d 2>/dev/null || :
 #filters=$(ls -l /share/fail2ban/filter.d | grep -E '^-' | awk '{print $9}')
 #for filter in ${filters}; do
 #  if [ -f "/etc/fail2ban/filter.d/${filter}" ]; then
