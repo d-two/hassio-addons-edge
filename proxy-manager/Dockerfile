@@ -20,7 +20,7 @@ sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/redirec
 sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/proxy-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf && \
 sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/proxy-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/proxy_host.conf && \
 sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/fallback_access.log#g' /etc/nginx/conf.d/default.conf && \
-sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/fallback_error.log#g' /etc/nginx/conf.d/default.conf && \
+sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/fallback_error.log#g' /etc/nginx/conf.d/default.conf
 
 # Labels
 LABEL \
