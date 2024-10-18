@@ -4,7 +4,7 @@
 # This file applies patches so the add-on becomes compatible
 # ==============================================================================
 
-F2B_LOG_TARGET=/config/fail2ban/fail2ban.log
+F2B_LOG_TARGET=/share/fail2ban/fail2ban.log
 F2B_LOG_LEVEL=${F2B_LOG_LEVEL:-INFO}
 F2B_DB_PURGE_AGE=${F2B_DB_PURGE_AGE:-1d}
 
