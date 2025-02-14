@@ -13,6 +13,7 @@ ARG BUILD_VERSION
 
 # Redirect log output to the add-on log
 RUN \
+sed -i 's#/data/logs/#/share/nginxproxymanager/logs/#g' /etc/logrotate.d/nginx-proxy-manager && \
 sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/dead-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf  && \
 sed -i 's#error_log /proc/1/fd/1#error_log /share/nginxproxymanager/logs/dead-host-{{ id }}_error.log#g' /opt/nginx-proxy-manager/templates/dead_host.conf && \
 sed -i 's#access_log /proc/1/fd/1#access_log /share/nginxproxymanager/logs/redirection-host-{{ id }}_access.log#g' /opt/nginx-proxy-manager/templates/redirection_host.conf && \
