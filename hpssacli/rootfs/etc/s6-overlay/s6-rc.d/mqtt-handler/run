@@ -1,0 +1,9 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Start mqtt service
+# ==============================================================================
+
+chmod -R 755 /media/runtest
+/media/runtest
+	

@@ -1,0 +1,3 @@
+# This is a Docker container as Status Monitor with ssacli.
+
+Under DEV...
