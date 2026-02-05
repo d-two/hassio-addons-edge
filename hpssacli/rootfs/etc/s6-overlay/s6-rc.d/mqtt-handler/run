@@ -4,6 +4,5 @@
 # Start mqtt service
 # ==============================================================================
 
-chmod -R 755 /media/runtest
+chmod -R 755 /runtest
 /runtest
-	
