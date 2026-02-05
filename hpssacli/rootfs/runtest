@@ -1,0 +1,180 @@
+#!/command/with-contenv bashio
+# shellcheck shell=bash
+# ==============================================================================
+# Start mqtt service
+# ==============================================================================
+
+controllername=""
+controllerslot=""
+arrayLogical=""
+arrayPhysical=""
+init=true
+prs="-r"
+status=""
+
+topic=$(bashio::config 'mqtt_topic')
+if [ "$topic" = "null" ]; then topic="hpssacli"; fi
+
+SendMqttEntity() {
+  entity=$1
+  template_entity=${entity//[^[:alnum:]]/_}
+  template_entity=${template_entity,,}
+  
+  device=$(jq -r -c -n --arg topic $topic --arg addon "$(bashio::addon.version)" --arg model "$controllername" --arg slot "$controllerslot" '
+	{device:{
+		identifiers:[$topic],
+		name: "HP Smart Raid Monitor",
+		sw_version: $addon,
+		model: $model,
+		manufacturer: ("Slot "+ $slot)
+	}}')
+  bashio::log.info "$device"
+  base=$(jq -r -c -n --arg topic "$topic" --arg entity "$entity" --arg template_entity "$template_entity" '
+	{
+		name:($topic+" "+$entity), 
+		unique_id:($topic +"_"+ ($entity|explode|join(""))),
+		value_template:("{{ value_json."+ $template_entity +" }}"),
+		state_topic:($topic + "/state")
+	}')
+
+  unit=$(jq -r -c -n --arg topic "$topic" --arg entity "$entity" '
+	{
+		mode: "text", 
+		icon:"mdi:harddisk"
+	}')
+
+  msg="{${base:1:${#base}-2}, ${device:1:${#device}-2}, ${unit:1:${#unit}-2}}"
+  bashio::log.info "${msg}"
+  mosquitto_pub ${prs} -t "homeassistant/sensor/${topic}/${template_entity}/config" -m "${msg}"
+}
+SaveMqttStatus() {
+  entity=$1
+  template_entity=${entity//[^[:alnum:]]/_}
+  template_entity=${template_entity,,}
+  bashio::log.debug "entity: $template_entity"
+  evalue="$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${2}")"
+  bashio::log.debug "value: $evalue"
+  status="$status\"${template_entity}\":\"${evalue}\","
+}
+
+SendMqttStatus() {  
+  mosquitto_pub ${prs} -t "${topic}/state" -m "{${1%?}}"
+  status=""
+}
+
+CheckLogicaldrives() {
+  file="$1"
+
+  local IFS="\n"
+  while read -r line; do
+	if [ "$line" ];then
+		line=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${line}")
+		if [[ $line == "Array "* ]];then			
+			arrayLogical=$(echo $line | cut -d' ' -f2)
+			bashio::log.debug "Array: $arrayLogical"
+		else
+			if [ "$arrayLogical" ];then 
+				#bashio::log.debug "$line"
+				# Number
+				bashio::log.debug "Logicaldrive: $(echo $line | cut -d' ' -f2)"
+				# Size
+				bashio::log.debug "Size: $(echo $line | cut -d',' -f1 | cut -d'(' -f2)"
+				# Raid
+				bashio::log.debug "Raid: $(echo $line | cut -d',' -f2 | cut -d' ' -f3)"
+				# Status
+				bashio::log.debug "Status: $(echo $line | cut -d',' -f3 | cut -d')' -f1)"
+			fi
+		fi
+	fi
+  done < $file
+}
+
+CheckPhysicaldrives() {
+  file="$1"
+
+  local IFS="\n"
+  while read -r line; do
+	if [ "$line" ];then
+		line=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${line}")
+		if [[ $line == "Array "* ]];then			
+			arrayPhysical=$(echo $line | cut -d' ' -f2)
+			bashio::log.debug "Array: $arrayPhysical"
+		else
+			if [ "$arrayPhysical" ];then
+				bashio::log.debug "$line"
+			fi
+		fi
+	fi
+  done < $file
+}
+
+CheckRaidStatus() {
+  file="$1"
+  firstline=true
+  local IFS="\n"
+  while read -r line; do
+	if [ "$line" ];then
+		if $firstline;then
+			bashio::log.debug "$line"
+			tmp=$(sed "s/ in Slot /;/g" <<<"$line")
+			controllername=$(echo $tmp | cut -d';' -f1)
+			controllerslot=$(echo $tmp | cut -d';' -f2)
+			firstline=false
+		else
+			line=$(sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'<<<"${line}")
+			
+			entity=$(echo $line | cut -d':' -f1)
+			bashio::log.debug "entity: $entity"
+			
+			evalue=$(echo $line | cut -d':' -f2)
+			bashio::log.debug "value: $evalue"
+
+			if $init;then
+				SendMqttEntity "$entity"
+			else
+				SaveMqttStatus "$entity" "$evalue"
+			fi
+		fi
+	fi
+  done < $file
+  SendMqttStatus "$status"
+}
+
+if [ -f /root/.config/mosquitto_pub ]; then
+    bashio::log.info "Starting the MQTT daemon for partitions info..."
+
+	bashio::log.info "MQTT integration"
+
+	#ssacli ctrl all show status > ssaclilog
+	#CheckRaidStatus ssaclilog
+	
+	# bashio::log.info "ld SHOW"
+	# ssacli ctrl slot=$controllerslot ld all show > ssaclilog
+	# CheckLogicaldrives ssaclilog
+	
+	# bashio::log.info "pd SHOW"
+	# ssacli ctrl slot=$controllerslot pd all show > ssaclilog
+	# CheckPhysicaldrives ssaclilog
+
+	# ssacli ctrl slot=$controllerslot ld 1 show detail
+	
+	# ssacli ctrl slot=$controllerslot pd 1I:0:1 show detail
+	
+	#chmod -R 755 /media/runtest
+	#/media/runtest
+
+	while true; do
+		# Send status message
+		ssacli ctrl all show status > ssaclilog
+		CheckRaidStatus ssaclilog
+		
+		ssacli ctrl slot=$controllerslot ld all show > ssaclilog
+		CheckLogicaldrives ssaclilog
+
+		ssacli ctrl slot=$controllerslot pd all show > ssaclilog
+		CheckPhysicaldrives ssaclilog
+
+		init=false		
+		sleep 10
+	done	
+fi
